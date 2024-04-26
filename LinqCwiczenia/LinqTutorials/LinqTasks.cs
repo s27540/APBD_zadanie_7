@@ -345,8 +345,10 @@ namespace LinqTutorials
         /// </summary>
         public static int Task13(int[] arr)
         {
-            int result = 0;
-            //result=
+            int result = arr.GroupBy(num => num)
+                            .Where(group => group.Count() % 2 != 0)
+                            .Select(group => group.Key)
+                            .First();
             return result;
         }
 
@@ -356,7 +358,7 @@ namespace LinqTutorials
         /// </summary>
         public static IEnumerable<Dept> Task14()
         {
-            IEnumerable<Dept> result = null;
+            IEnumerable<Dept> result = null;//Depts.Where(d => d.Deptno);
             //result =
             return result;
         }
@@ -378,10 +380,9 @@ namespace LinqTutorials
         /// <summary>
         ///     SELECT * FROM Emps, Depts;
         /// </summary>
-        public static IEnumerable<Dept> Task16()
+        public static IEnumerable<Object> Task16()
         {
-            IEnumerable<Dept> result = null;
-            //result =
+            IEnumerable<Object> result = Emps.Join(Depts, emp => emp.Deptno, dept => dept.Deptno,(emp, dept) => new {emp, dept});
             return result;
         }
     }
