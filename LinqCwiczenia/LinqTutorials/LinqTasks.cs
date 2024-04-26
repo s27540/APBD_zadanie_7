@@ -358,8 +358,14 @@ namespace LinqTutorials
         /// </summary>
         public static IEnumerable<Dept> Task14()
         {
-            IEnumerable<Dept> result = null;//Depts.Where(d => d.Deptno);
-            //result =
+            IEnumerable<Dept> result = Depts.Join(Emps.GroupBy(emp => emp.Deptno), 
+                                                dept => dept.Deptno, 
+                                                group => group.Key,
+                                                (dept, group) => new { Dept = dept, Count = group.Count() })
+                                                .Where(d => d.Count == 5 || d.Count == 0)
+                                                .OrderBy(d => d.Dept.Dname)
+                                                .Select(d => d.Dept);
+
             return result;
         }
         
@@ -372,8 +378,17 @@ namespace LinqTutorials
         /// </summary>
         public static IEnumerable<Object> Task15()
         {
-            IEnumerable<Object> result = null;
-            //result =
+            IEnumerable<Object> result = Emps
+                                        .Where(emp => emp.Job.Contains("A"))
+                                        .GroupBy(emp => emp.Job)
+                                        .Where(group => group.Count() > 2)
+                                        .OrderByDescending(group => group.Count())
+                                        .Select(group => new
+                                        {
+                                            Praca = group.Key,
+                                            LiczbaPracownikow = group.Count()
+                                        });
+            
             return result;
         }
         
